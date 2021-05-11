@@ -5,12 +5,24 @@
   echo `bin/cypress`;
 
   // Parse results from Cypress
-  echo "Checking availability...\r\n\r\n";
-  $result = true;
+  echo "Checking availability...\r\n";
+
+  // Pass when no locations are available
   $html = file_get_contents('./location-selector.html');
   if(strstr($html, 'Helaas nog geen locaties beschikbaar vandaag')) {
-    $result = false;
+    echo "No locations found!\r\n";
+    exit(0);
   }
-  echo $html;
 
-  exit((int) $result);
+  // Get locations
+  $locations = explode('op-is-op', $html);
+  unset($locations[0]);
+  echo "Checking ". sizeof($locations) ." locations...\r\n";
+
+  // Check each location
+  foreach($locations as $location) {
+    echo "Checking location: ". str_replace("\n", ' ', strip_tags(substr(trim($location), 3))) ."\r\n";
+    if(strpos($location, 'geen vaccins') === false) {
+      exit(1);
+    }
+  }
