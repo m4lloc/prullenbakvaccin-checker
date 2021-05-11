@@ -1,0 +1,18 @@
+#!/usr/local/bin/php
+<?php
+
+  // Run Cypress
+  echo "Running Cypress... ";
+  `bin/cypress`;
+  echo "DONE\r\n";
+
+  // Parse results from Cypress
+  echo "Checking availability... ";
+  $result = true;
+  $html = file_get_contents('./location-selector.html');
+  if(strstr($html, 'Helaas nog geen locaties beschikbaar vandaag')) {
+    $result = false;
+  }
+  echo "DONE\r\n\r\n";
+
+  exit((int) $result);
