@@ -5,7 +5,7 @@ describe('location-selector', () => {
     cy.get('input[name=location]').type(Cypress.env('location'))
     cy.get('form.location-selector button').click()
     
-    cy.get('html').invoke('html').then((text) => {
+    cy.get('#locations-container').invoke('html').then((text) => {
       cy.writeFile('location-selector.html', text)
     });
   })
