@@ -1,6 +1,7 @@
 name: Check vaccine availability
 
 on:
+  workflow_dispatch:
   schedule:
     - cron:  '0,15,30,45 * * * *'
 
